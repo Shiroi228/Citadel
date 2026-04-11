@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include "parsers/configurationloader.hpp"
+
 using namespace std;
 
 int main(int argc, char* argv[]) {
@@ -9,6 +11,11 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
+    parsers::ConfigurationLoader loader;
+    if(!loader.read("cfg.json")) { return -1; };
+
+    
+
     cout << "Hello World!" << endl;
     return 0;
 }

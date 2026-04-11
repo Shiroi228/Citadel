@@ -11,6 +11,11 @@ add_executable(${PROJECT_NAME}
     src/base/rules.hpp
     src/base/rules.cpp
 
+    src/libs/nlohmann/json.hpp
+    
+    src/parsers/configurationloader.cpp
+    src/parsers/configurationloader.hpp
+
 )
 
 include(GNUInstallDirs)
