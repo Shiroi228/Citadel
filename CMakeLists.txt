@@ -8,13 +8,20 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(${PROJECT_NAME}
     src/main.cpp
 
-    src/base/rules.hpp
+    src/base/config.hpp
     src/base/rules.cpp
+    src/base/rules.hpp
+    src/base/senseritem.cpp
+    src/base/senseritem.hpp
+    src/base/sensermanager.cpp
+    src/base/sensermanager.hpp
 
     src/libs/nlohmann/json.hpp
-    
+
     src/parsers/configurationloader.cpp
     src/parsers/configurationloader.hpp
+    src/parsers/fileparser.cpp
+    src/parsers/fileparser.hpp
 
 )
 

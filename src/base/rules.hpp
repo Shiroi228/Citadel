@@ -3,21 +3,23 @@
 
 #include <string>
 
+namespace base {
+
 using namespace std;
 
-class Rule {
+class BaseRule {
 public:
-    Rule() = default;
-    ~Rule() = default;
+    BaseRule() = default;
+    ~BaseRule() = default;
 
     virtual string name() const = 0;
     virtual string toString() const = 0;
 
-    virtual bool operator<(const Rule& other) const = 0;
-    virtual bool operator>(const Rule& other) const = 0;
+    virtual bool operator<(const BaseRule& other) const = 0;
+    virtual bool operator>(const BaseRule& other) const = 0;
 };
 
-class StateRule : public Rule {
+class StateRule : public BaseRule {
 public:
     StateRule(bool state, const string &tStr, const string &fStr);
     ~StateRule() = default;
@@ -27,8 +29,8 @@ public:
 
     bool value();
 
-    bool operator<(const Rule& other) const override;
-    bool operator>(const Rule& other) const override;
+    bool operator<(const BaseRule& other) const override;
+    bool operator>(const BaseRule& other) const override;
 
 private:
     bool state_;
@@ -36,34 +38,43 @@ private:
     string falseStr_;
 };
 
-class TempRule : public Rule {
+class TempRule : public BaseRule {
 public:
-    TempRule(const double &temp);
+    explicit TempRule(const float &temp);
 
     string name() const override;
     string toString() const override;
 
-    bool operator<(const Rule& other) const override;
-    bool operator>(const Rule& other) const override;
+    float value() const;
+
+    bool operator<(const BaseRule& other) const override;
+    bool operator>(const BaseRule& other) const override;
 
 private:
-    double temp_;
+    float temp_;
 };
 
-class SpeedRule : public Rule {
+class SpeedRule : public BaseRule {
 public:
-    SpeedRule(const double &speed);
+    SpeedRule(const float &speed, const string &unit);
+    explicit SpeedRule(float bps);
 
     string toString() const override;
     string name() const override;
 
-    bool operator<(const Rule& other) const override;
-    bool operator>(const Rule& other) const override;
+    float value() const;
+
+    bool operator<(const BaseRule& other) const override;
+    bool operator>(const BaseRule& other) const override;
 
 private:
-    double speed_;
+    static float convertToBitsPerSecond(float value, const string& unit);
+    static string formatSpeed(float bps);
+
+private:
+    float speed_;
 };
 
-
+}
 
 #endif //RULES_H
