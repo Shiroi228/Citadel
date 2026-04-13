@@ -18,17 +18,14 @@ bool ConfigurationLoader::read(const string &configuration) {
     cout << configuration << " has been opened" << endl;
 
     for (const auto& item : config["sensors"]) {
-        Sensor sensor;
+        base::Sensor sensor;
         sensor.name_ = item["name"];
         sensor.rule_ = item["rule"];
         configuration_.sensors_.push_back(sensor);
     }
 
     for (const auto& item : config["rules"]) {
-        Rule rule;
-        rule.name_ = item["name"];
-        rule.type_ = item["type"];
-        rule.rule_ = item["rule"];
+        base::Rule rule(item["name"], item["type"],  item["rule"]);
         
         if (item.contains("true")) {
             rule.trueValue_ = item["true"];
@@ -41,7 +38,7 @@ bool ConfigurationLoader::read(const string &configuration) {
     }
 
     for (const auto& item : config["extractors"]) {
-        Extractor extractor;
+        base::Extractor extractor;
         extractor.sensor_ = item["sensor"];
         for (const auto& rule_name : item["rules"]) {
             extractor.rules_.push_back(rule_name);
@@ -58,6 +55,10 @@ bool ConfigurationLoader::read(const string &configuration) {
     cout << "The configuration " << configuration << " loaded" << endl;
 
     return true;
+}
+
+base::Config ConfigurationLoader::configuration() const {
+    return configuration_;
 }
 
 }

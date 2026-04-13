@@ -1,21 +1,28 @@
 #include <iostream>
 
 #include "parsers/configurationloader.hpp"
+#include "parsers/fileparser.hpp"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
+    setlocale(LC_ALL, "ru");
+
     if (argc < 2) {
         cerr << "Usage: " << argv[0] << " <files...>" << endl;
         cerr << "Example: " << argv[0] << " *.txt" << endl;
         return 1;
     }
-    
+
     parsers::ConfigurationLoader loader;
     if(!loader.read("cfg.json")) { return -1; };
 
-    
+    parsers::FilesParser fileParser(loader.configuration());
+    for (int i = 1; i < argc; ++i) {
+        fileParser.parseFile(argv[i]);
+    }
 
-    cout << "Hello World!" << endl;
+
+    cout << "Successfully!" << endl;
     return 0;
 }
