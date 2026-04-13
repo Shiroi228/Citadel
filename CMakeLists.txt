@@ -11,10 +11,10 @@ add_executable(${PROJECT_NAME}
     src/base/config.hpp
     src/base/rules.cpp
     src/base/rules.hpp
-    src/base/senseritem.cpp
-    src/base/senseritem.hpp
-    src/base/sensermanager.cpp
-    src/base/sensermanager.hpp
+    src/base/sensoritem.cpp
+    src/base/sensoritem.hpp
+    src/base/sensormanager.cpp
+    src/base/sensormanager.hpp
 
     src/libs/nlohmann/json.hpp
 

@@ -6,8 +6,8 @@
 namespace parsers {
 
 FilesParser::FilesParser(const base::Config &config)
-    : config_(config), manager_(shared_ptr<base::SenserManager>(new base::SenserManager(config))) {
-
+    : config_(config), manager_(base::SensorManager::instance()) {
+    manager_->setConfiguration(config);
 }
 
 void FilesParser::parseFile(const string &filename) {
@@ -21,16 +21,25 @@ void FilesParser::parseFile(const string &filename) {
 
     string line;
     bool sensorFound = false;
+    vector<base::Sensor> sensorList = manager_->configurationSensors();
 
     while (getline(file, line)) {
         if (!sensorFound) {
             regex sensorRegex("Датчик\\s+(\\d+)");
             smatch match;
+
             if (regex_search(line, match, sensorRegex)) {
                 string foundSensor = "sensor" + match[1].str();
-                cout << "filename: " << filename << endl;
-                cout << "sensor name: " << foundSensor << endl;
+
+                for (auto item : sensorList) {
+                    if (foundSensor.compare(item.name()) != 0) {
+                        cout << "В файле " << filename << " найден " << foundSensor << endl; 
+                        
+                        sensorFound = true;
+                    }
+                }
             }
+
             continue;
         }
     }

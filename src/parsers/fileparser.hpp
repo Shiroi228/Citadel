@@ -9,7 +9,7 @@
 #include <memory>
 
 #include "../libs/nlohmann/json.hpp"
-#include "../base/sensermanager.hpp"
+#include "../base/sensormanager.hpp"
 
 #include "configurationloader.hpp"
 
@@ -27,7 +27,7 @@ public:
 
 private:
     const base::Config& config_;
-    shared_ptr<base::SenserManager> manager_;
+    shared_ptr<base::SensorManager> manager_;
     mutex mutex_;
 };
 

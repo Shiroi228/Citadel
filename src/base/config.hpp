@@ -9,10 +9,7 @@ namespace base {
 
 using namespace std;
 
-struct Sensor {
-    string name_;
-    string rule_;
-};
+class Sensor;
 
 struct Rule {
     Rule(const string& name, const string& type, const string& rule)
