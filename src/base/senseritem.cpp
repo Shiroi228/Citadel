@@ -15,7 +15,7 @@ string SenserItem::name() const {
 }
 
 string SenserItem::rule() const {
-    return name_;
+    return rule_;
 }
 
 SenserParametersSet::SenserParametersSet(StateRule state, TempRule temp, SpeedRule speed) : state_(state), temp_(temp), speed_(speed) {
