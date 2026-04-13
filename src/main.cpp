@@ -1,4 +1,5 @@
 #include <iostream>
+#include <windows.h>
 
 #include "parsers/configurationloader.hpp"
 #include "parsers/fileparser.hpp"
@@ -6,8 +7,8 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    setlocale(LC_ALL, "ru");
-
+    SetConsoleOutputCP(65001);
+    
     if (argc < 2) {
         cerr << "Usage: " << argv[0] << " <files...>" << endl;
         cerr << "Example: " << argv[0] << " *.txt" << endl;
