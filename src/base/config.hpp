@@ -9,21 +9,18 @@ namespace base {
 
 using namespace std;
 
-struct Sensor {
-    string name_;
-    string rule_;
-};
+class Sensor;
 
 struct Rule {
     Rule(const string& name, const string& type, const string& rule)
-        : name_(name), type_(type), rule_(rule), regex_(rule) {}
+        : name_(name), type_(type), rule_(rule) {}
+    Rule() = default;
 
     string name_;
     string type_;
     string rule_;
     string trueValue_;
     string falseValue_;
-    regex  regex_;
 };
 
 struct Extractor {

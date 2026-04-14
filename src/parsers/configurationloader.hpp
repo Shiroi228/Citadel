@@ -5,6 +5,7 @@
 #include <string>
 
 #include "../base/config.hpp"
+#include "../base/sensor.hpp"
 #include "../libs/nlohmann/json.hpp"
 
 

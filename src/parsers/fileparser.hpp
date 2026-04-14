@@ -9,7 +9,7 @@
 #include <memory>
 
 #include "../libs/nlohmann/json.hpp"
-#include "../base/sensermanager.hpp"
+#include "../base/sensormanager.hpp"
 
 #include "configurationloader.hpp"
 
@@ -24,10 +24,18 @@ public:
     ~FilesParser() = default;
 
     void parseFile(const string &filename);
+    void parseValue(const string &line);
+
+    void info();
 
 private:
-    const base::Config& config_;
-    shared_ptr<base::SenserManager> manager_;
+    base::Config config_;
+
+    base::StateRule state_;
+    base::TempRule temp_;
+    base::SpeedRule speed_;
+
+    shared_ptr<base::SensorManager> manager_;
     mutex mutex_;
 };
 

@@ -8,7 +8,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     SetConsoleOutputCP(65001);
-    
+
     if (argc < 2) {
         cerr << "Usage: " << argv[0] << " <files...>" << endl;
         cerr << "Example: " << argv[0] << " *.txt" << endl;
@@ -22,7 +22,6 @@ int main(int argc, char* argv[]) {
     for (int i = 1; i < argc; ++i) {
         fileParser.parseFile(argv[i]);
     }
-
 
     cout << "Successfully!" << endl;
     return 0;

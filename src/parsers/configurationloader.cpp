@@ -18,10 +18,9 @@ bool ConfigurationLoader::read(const string &configuration) {
     cout << configuration << " has been opened" << endl;
 
     for (const auto& item : config["sensors"]) {
-        base::Sensor sensor;
-        sensor.name_ = item["name"];
-        sensor.rule_ = item["rule"];
-        configuration_.sensors_.push_back(sensor);
+        base::Sensor sensorItem(item["name"], item["rule"]);
+        
+        configuration_.sensors_.push_back(sensorItem);
     }
 
     for (const auto& item : config["rules"]) {

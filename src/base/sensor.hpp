@@ -1,0 +1,39 @@
+#ifndef SENSORITEM_H
+#define SENSORITEM_H
+
+#include <map>
+#include <string>
+
+#include "rules.hpp"
+
+namespace base {
+    
+using namespace std;
+
+struct SensorParametersSet {
+    SensorParametersSet(StateRule state, TempRule temp, SpeedRule speed);
+
+    StateRule state_;
+    TempRule temp_;
+    SpeedRule speed_;
+};
+
+class Sensor {
+public:
+    Sensor(const string &name = string(), const string &rule = string());
+    void info();
+
+    string name() const;
+    string rule() const;
+
+    void append(const string &filename, const SensorParametersSet &set);
+
+private:
+    string name_;
+    string rule_;
+
+    multimap<string, SensorParametersSet> data_;
+};
+
+}
+#endif //SENSORITEM_H
