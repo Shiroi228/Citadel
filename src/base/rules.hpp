@@ -12,7 +12,7 @@ public:
     BaseRule() = default;
     ~BaseRule() = default;
 
-    virtual string name() const = 0;
+    virtual string type() const = 0;
     virtual string toString() const = 0;
 
     virtual bool operator<(const BaseRule& other) const = 0;
@@ -21,10 +21,13 @@ public:
 
 class StateRule : public BaseRule {
 public:
-    StateRule(bool state, const string &tStr, const string &fStr);
+    StateRule(const string &state);
+    StateRule() = default;
+    
     ~StateRule() = default;
     
-    string name() const override;
+    static string name();
+    string type() const override;
     string toString() const override;
 
     bool value();
@@ -34,15 +37,15 @@ public:
 
 private:
     bool state_;
-    string trueStr_;
-    string falseStr_;
 };
 
 class TempRule : public BaseRule {
 public:
     explicit TempRule(const float &temp);
+    TempRule() = default;
 
-    string name() const override;
+    static string name();
+    string type() const override;
     string toString() const override;
 
     float value() const;
@@ -57,10 +60,12 @@ private:
 class SpeedRule : public BaseRule {
 public:
     SpeedRule(const float &speed, const string &unit);
-    explicit SpeedRule(float bps);
+    explicit SpeedRule(const float &bps);
+    SpeedRule() = default;
 
+    static string name();
+    string type() const override;
     string toString() const override;
-    string name() const override;
 
     float value() const;
 

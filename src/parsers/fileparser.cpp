@@ -20,29 +20,67 @@ void FilesParser::parseFile(const string &filename) {
     }
 
     string line;
-    bool sensorFound = false;
-    vector<base::Sensor> sensorList = manager_->configurationSensors();
-
+    bool isSensorFound = false;
+    string foundSensor;
+    
     while (getline(file, line)) {
-        if (!sensorFound) {
+        if (!isSensorFound) {
             regex sensorRegex("Датчик\\s+(\\d+)");
             smatch match;
 
             if (regex_search(line, match, sensorRegex)) {
-                string foundSensor = "sensor" + match[1].str();
+                foundSensor = "sensor" + match[1].str();
 
-                for (auto item : sensorList) {
-                    if (foundSensor.compare(item.name()) != 0) {
-                        cout << "В файле " << filename << " найден " << foundSensor << endl; 
+                for (const base::Sensor &item : config_.sensors_) {
+                    if (!foundSensor.compare(item.name())) {
+                        cout << endl << "В файле " << filename << " найден " << foundSensor << endl;
                         
-                        sensorFound = true;
+                        isSensorFound = true;
                     }
                 }
             }
 
             continue;
         }
+        
+        parseValue(line);
+        
+        if (line.empty() || line.find("Датчик") != string::npos) {
+            base::SensorParametersSet set(state_, temp_, speed_);
+            manager_->updateData(foundSensor, filename, set);
+
+            isSensorFound = false;
+        }
     }
+}
+
+void FilesParser::parseValue(const string &line) {
+    smatch match;
+    regex stateRegex("Состояние\\s*:\\s*(\\S+)");
+    regex tempRegex("Температура\\s*:\\s*([\\d.]+)");
+    regex speedRegex("Скорость\\s*:\\s*([\\d.]+)\\s*(\\S+)");
+
+    if (regex_search(line, match, stateRegex)) {
+        state_ = base::StateRule(match[1].str());
+
+        cout << "Состояние: " << match[1].str() << " : " << state_.value() << endl;
+    }
+
+    if (regex_search(line, match, tempRegex)) {
+        temp_ = base::TempRule(stof(match[1].str()));
+
+        cout << "Температура: " << match[1].str() << " : " << temp_.value() << endl;
+    }
+
+    if (regex_search(line, match, speedRegex)) {
+        speed_ = base::SpeedRule(stof(match[1].str()), match[2].str());
+
+        cout << "Скорость: " << match[1].str() << " " << match[2].str() << " : " << speed_.value() << endl;
+    }
+}
+
+void FilesParser::info() {
+    manager_->info();
 }
 
 }

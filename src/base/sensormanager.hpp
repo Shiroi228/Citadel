@@ -2,9 +2,10 @@
 #define SENSERMANAGER_H
 
 #include <memory>
+#include <list>
 
 #include "config.hpp"
-#include "sensoritem.hpp"
+#include "sensor.hpp"
 
 namespace base {
 
@@ -12,15 +13,17 @@ using namespace std;
 
 class SensorManager {
 public:
-    explicit SensorManager();
+    SensorManager();
 
     static shared_ptr<SensorManager> instance();
 
-    vector<Sensor> configurationSensors() const;
+    void updateData(const string &sensorName, const string &filename, const SensorParametersSet &set);
+    void info();
+
     void setConfiguration(const Config &config);
 
 private:
-    Config config_;
+    list<Sensor> sensors_;
 
 };
 

@@ -7,16 +7,20 @@ namespace base {
  *
  */
 
-StateRule::StateRule(bool state, const string &tStr, const string &fStr) : state_(state), trueStr_(tStr), falseStr_(fStr) {
-
+string StateRule::type() const {
+    return name();
 }
 
-string StateRule::name() const {
+StateRule::StateRule(const string &state) {
+    !state.compare("включен") ? state_ = true : state_ = false;
+}
+
+string StateRule::name() {
     return string("state");
 }
 
 string StateRule::toString() const {
-    return state_ ? trueStr_ : falseStr_;
+    return state_ ? "включен" : "выключен";
 }
 
 bool StateRule::value() {
@@ -54,8 +58,12 @@ float TempRule::value() const {
     return temp_;
 }
 
-string TempRule::name() const {
+string TempRule::name() {
     return string("temp");
+}
+
+string TempRule::type() const {
+    return name();
 }
 
 string TempRule::toString() const {
@@ -89,7 +97,7 @@ SpeedRule::SpeedRule(const float &speed, const string &unit) : speed_(convertToB
 
 }
 
-SpeedRule::SpeedRule(float bps) : speed_(bps) {
+SpeedRule::SpeedRule(const float &bps) : speed_(bps) {
 
 }
 
@@ -98,10 +106,10 @@ float SpeedRule::value() const {
 }
 
 float SpeedRule::convertToBitsPerSecond(float value, const string &unit) {
-    if (unit == "bit" || unit == "bits") return value;
-    if (unit == "Kbit") return value * 1000;
-    if (unit == "Mbit") return value * 1000000;
-    if (unit == "Gbit") return value * 1000000000;
+    if (unit == "bit/s"  || unit == "bits") return value;
+    if (unit == "Kbit/s" || unit == "Kbits") return value * 1000;
+    if (unit == "Mbit/s" || unit == "Mbits") return value * 1000000;
+    if (unit == "Gbit/s" || unit == "Gbits") return value * 1000000000;
     return value;
 }
 
@@ -117,11 +125,15 @@ string SpeedRule::formatSpeed(float bps) {
     }
 }
 
+string SpeedRule::type() const {
+    return name();
+}
+
 string SpeedRule::toString() const {
     return formatSpeed(speed_);
 }
 
-string SpeedRule::name() const {
+string SpeedRule::name() {
     return string("speed");
 }
 

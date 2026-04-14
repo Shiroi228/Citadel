@@ -11,8 +11,8 @@ add_executable(${PROJECT_NAME}
     src/base/config.hpp
     src/base/rules.cpp
     src/base/rules.hpp
-    src/base/sensoritem.cpp
-    src/base/sensoritem.hpp
+    src/base/sensor.cpp
+    src/base/sensor.hpp
     src/base/sensormanager.cpp
     src/base/sensormanager.hpp
 
