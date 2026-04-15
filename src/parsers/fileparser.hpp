@@ -1,15 +1,8 @@
 #ifndef FILEPARSER_H
 #define FILEPARSER_H
 
-#include <fstream>
-#include <vector>
-#include <string>
-#include <regex>
-#include <mutex>
-#include <memory>
-
-#include "../libs/nlohmann/json.hpp"
 #include "../base/sensormanager.hpp"
+#include "../libs/nlohmann/json.hpp"
 
 #include "configurationloader.hpp"
 
@@ -26,8 +19,6 @@ public:
     void parseFile(const string &filename);
     void parseValue(const string &line);
 
-    void info();
-
 private:
     base::Config config_;
 
@@ -36,7 +27,6 @@ private:
     base::SpeedRule speed_;
 
     shared_ptr<base::SensorManager> manager_;
-    mutex mutex_;
 };
 
 }

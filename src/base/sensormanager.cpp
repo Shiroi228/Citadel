@@ -23,18 +23,20 @@ void SensorManager::updateData(const string &sensorName, const string &filename,
     }
 }
 
-void SensorManager::info() {
-    for (Sensor item : sensors_) {
-        item.info();
+void SensorManager::extractorInfo() {
+    if (!sensors_.size() || !extractors_.size()) { return; }
+
+    for (Sensor &item : sensors_) {
+        item.maxMinInfo(extractors_);
     }
 }
 
 void SensorManager::setConfiguration(const Config &config) {
     sensors_.clear();
+    extractors_.clear();
 
-    for (Sensor item : config.sensors_) {
-        sensors_.push_back(item);
-    }
+    sensors_ = config.sensors_;
+    extractors_ = config.extractors_;
 }
 
 }

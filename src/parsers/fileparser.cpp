@@ -1,4 +1,3 @@
-#include <fstream>
 #include <iostream>
 
 #include "fileparser.hpp"
@@ -14,14 +13,12 @@ void FilesParser::parseFile(const string &filename) {
     ifstream file(filename);
 
     if (!file.is_open()) {
-        lock_guard<mutex> lock(mutex_);
         cerr << "Cannot open file: " << filename << endl;
         return;
     }
 
-    string line;
+    string line, foundSensor;
     bool isSensorFound = false;
-    string foundSensor;
     
     while (getline(file, line)) {
         if (!isSensorFound) {
@@ -32,11 +29,7 @@ void FilesParser::parseFile(const string &filename) {
                 foundSensor = "sensor" + match[1].str();
 
                 for (const base::Sensor &item : config_.sensors_) {
-                    if (!foundSensor.compare(item.name())) {
-                        cout << endl << "В файле " << filename << " найден " << foundSensor << endl;
-                        
-                        isSensorFound = true;
-                    }
+                    if (!foundSensor.compare(item.name())) { isSensorFound = true; }
                 }
             }
 
@@ -60,27 +53,9 @@ void FilesParser::parseValue(const string &line) {
     regex tempRegex("Температура\\s*:\\s*([\\d.]+)");
     regex speedRegex("Скорость\\s*:\\s*([\\d.]+)\\s*(\\S+)");
 
-    if (regex_search(line, match, stateRegex)) {
-        state_ = base::StateRule(match[1].str());
-
-        cout << "Состояние: " << match[1].str() << " : " << state_.value() << endl;
-    }
-
-    if (regex_search(line, match, tempRegex)) {
-        temp_ = base::TempRule(stof(match[1].str()));
-
-        cout << "Температура: " << match[1].str() << " : " << temp_.value() << endl;
-    }
-
-    if (regex_search(line, match, speedRegex)) {
-        speed_ = base::SpeedRule(stof(match[1].str()), match[2].str());
-
-        cout << "Скорость: " << match[1].str() << " " << match[2].str() << " : " << speed_.value() << endl;
-    }
-}
-
-void FilesParser::info() {
-    manager_->info();
+    if (regex_search(line, match, stateRegex)) { state_ = base::StateRule(match[1].str()); }
+    if (regex_search(line, match, tempRegex)) { temp_ = base::TempRule(stof(match[1].str())); }
+    if (regex_search(line, match, speedRegex)) { speed_ = base::SpeedRule(stof(match[1].str()), match[2].str()); }
 }
 
 }

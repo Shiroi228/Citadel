@@ -1,5 +1,5 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 #include "configurationloader.hpp"
 
@@ -14,8 +14,6 @@ bool ConfigurationLoader::read(const string &configuration) {
 
     json config;
     configFile >> config;
-
-    cout << configuration << " has been opened" << endl;
 
     for (const auto& item : config["sensors"]) {
         base::Sensor sensorItem(item["name"], item["rule"]);
@@ -50,8 +48,6 @@ bool ConfigurationLoader::read(const string &configuration) {
         
         return false;
     }
-
-    cout << "The configuration " << configuration << " loaded" << endl;
 
     return true;
 }

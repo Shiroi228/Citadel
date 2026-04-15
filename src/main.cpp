@@ -1,7 +1,6 @@
 #include <iostream>
 #include <windows.h>
 
-#include "parsers/configurationloader.hpp"
 #include "parsers/fileparser.hpp"
 
 using namespace std;
@@ -23,6 +22,7 @@ int main(int argc, char* argv[]) {
         fileParser.parseFile(argv[i]);
     }
 
-    cout << "Successfully!" << endl;
+    base::SensorManager::instance()->extractorInfo();
+
     return 0;
 }

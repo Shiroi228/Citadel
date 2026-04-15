@@ -23,10 +23,6 @@ string StateRule::toString() const {
     return state_ ? "включен" : "выключен";
 }
 
-bool StateRule::value() {
-    return state_;
-}
-
 bool StateRule::operator<(const BaseRule &other) const {
     const auto* otherBool = dynamic_cast<const StateRule*>(&other);
     if (otherBool) {
@@ -54,10 +50,6 @@ TempRule::TempRule(const float &temp) : temp_(temp) {
 
 }
 
-float TempRule::value() const {
-    return temp_;
-}
-
 string TempRule::name() {
     return string("temp");
 }
@@ -67,7 +59,10 @@ string TempRule::type() const {
 }
 
 string TempRule::toString() const {
-    return to_string(temp_);
+    stringstream ss;
+    ss << fixed << setprecision(1) << temp_;
+
+    return ss.str();
 }
 
 bool TempRule::operator<(const BaseRule &other) const {
@@ -101,10 +96,6 @@ SpeedRule::SpeedRule(const float &bps) : speed_(bps) {
 
 }
 
-float SpeedRule::value() const {
-    return speed_;
-}
-
 float SpeedRule::convertToBitsPerSecond(float value, const string &unit) {
     if (unit == "bit/s"  || unit == "bits") return value;
     if (unit == "Kbit/s" || unit == "Kbits") return value * 1000;
@@ -114,12 +105,17 @@ float SpeedRule::convertToBitsPerSecond(float value, const string &unit) {
 }
 
 string SpeedRule::formatSpeed(float bps) {
+    stringstream ss;
+
     if (bps >= 1000000000) {
-        return to_string(bps / 1000000000) + " Gbit/s";
+        ss << fixed << setprecision(1) << bps / 1000000000;
+        return ss.str() + " Gbit/s";
     } else if (bps >= 1000000) {
-        return to_string(bps / 1000000) + " Mbit/s";
+        ss << fixed << setprecision(1) << bps / 1000000;
+        return ss.str() + " Mbit/s";
     } else if (bps >= 1000) {
-        return to_string(bps / 1000) + " Kbit/s";
+        ss << fixed << setprecision(1) << bps / 1000;
+        return ss.str() + " Kbit/s";
     } else {
         return to_string(static_cast<int>(bps)) + " bit/s";
     }

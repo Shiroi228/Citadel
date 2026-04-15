@@ -1,6 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <list>
 #include <regex>
 #include <string>
 #include <vector>
@@ -29,7 +30,7 @@ struct Extractor {
 };
 
 struct Config {
-    vector<Sensor> sensors_;
+    list<Sensor> sensors_;
     vector<Rule> rules_;
     vector<Extractor> extractors_;
 };
