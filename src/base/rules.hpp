@@ -1,6 +1,8 @@
 #ifndef RULES_H
 #define RULES_H
 
+#include <iomanip>
+#include <sstream>
 #include <string>
 
 namespace base {
@@ -30,8 +32,6 @@ public:
     string type() const override;
     string toString() const override;
 
-    bool value();
-
     bool operator<(const BaseRule& other) const override;
     bool operator>(const BaseRule& other) const override;
 
@@ -47,8 +47,6 @@ public:
     static string name();
     string type() const override;
     string toString() const override;
-
-    float value() const;
 
     bool operator<(const BaseRule& other) const override;
     bool operator>(const BaseRule& other) const override;
@@ -66,8 +64,6 @@ public:
     static string name();
     string type() const override;
     string toString() const override;
-
-    float value() const;
 
     bool operator<(const BaseRule& other) const override;
     bool operator>(const BaseRule& other) const override;

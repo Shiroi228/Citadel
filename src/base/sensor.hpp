@@ -2,8 +2,8 @@
 #define SENSORITEM_H
 
 #include <map>
-#include <string>
 
+#include "config.hpp"
 #include "rules.hpp"
 
 namespace base {
@@ -21,12 +21,15 @@ struct SensorParametersSet {
 class Sensor {
 public:
     Sensor(const string &name = string(), const string &rule = string());
-    void info();
 
     string name() const;
     string rule() const;
 
     void append(const string &filename, const SensorParametersSet &set);
+    void maxMinInfo(const vector<Extractor> &extractors);
+
+private:
+    string maxMin(const string &rule);
 
 private:
     string name_;

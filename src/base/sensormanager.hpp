@@ -1,8 +1,8 @@
 #ifndef SENSERMANAGER_H
 #define SENSERMANAGER_H
 
-#include <memory>
 #include <list>
+#include <memory>
 
 #include "config.hpp"
 #include "sensor.hpp"
@@ -18,13 +18,13 @@ public:
     static shared_ptr<SensorManager> instance();
 
     void updateData(const string &sensorName, const string &filename, const SensorParametersSet &set);
-    void info();
+    void extractorInfo();
 
     void setConfiguration(const Config &config);
 
 private:
     list<Sensor> sensors_;
-
+    vector<Extractor> extractors_;
 };
 
 }
